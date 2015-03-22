@@ -1,0 +1,15 @@
+{
+  "name": "linter-coffeescript",
+  "main": "./lib/init",
+  "linter-package": true,
+  "version": "0.1.0",
+  "description": "Lint CoffeeScript on the fly, using coffee",
+  "repository": "https://github.com/hokaccha/linter-coffeescript",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+    "coffee-script": "^1.9.1"
+  }
+}
