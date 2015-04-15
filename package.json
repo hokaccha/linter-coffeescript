@@ -2,7 +2,7 @@
   "name": "linter-coffeescript",
   "main": "./lib/init",
   "linter-package": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lint CoffeeScript on the fly, using coffee",
   "repository": "https://github.com/hokaccha/linter-coffeescript",
   "license": "MIT",
