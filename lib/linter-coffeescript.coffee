@@ -1,6 +1,7 @@
 linterPath = atom.packages.getLoadedPackage('linter').path
 Linter = require "#{linterPath}/lib/linter"
 coffee = require 'coffee-script'
+fs = require 'fs'
 
 class LinterCoffeeScript extends Linter
   @syntax: ['source.coffee', 'source.litcoffee']
