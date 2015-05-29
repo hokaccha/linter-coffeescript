@@ -4,7 +4,7 @@ coffee = require 'coffee-script'
 fs = require 'fs'
 
 class LinterCoffeeScript extends Linter
-  @syntax: ['source.coffee', 'source.litcoffee']
+  @syntax: ['source.coffee', 'source.litcoffee', 'source.coffee.jsx']
 
   linterName: 'coffeescript'
 
