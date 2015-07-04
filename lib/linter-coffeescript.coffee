@@ -1,39 +1,31 @@
-linterPath = atom.packages.getLoadedPackage('linter').path
-Linter = require "#{linterPath}/lib/linter"
 coffee = require 'coffee-script'
-fs = require 'fs'
 
-class LinterCoffeeScript extends Linter
-  @syntax: ['source.coffee', 'source.litcoffee', 'source.coffee.jsx']
+class LinterCoffeeScript
+  grammarScopes: ['source.coffee', 'source.litcoffee', 'source.coffee.jsx']
+  scope: 'file'
+  lintOnFly: true
+  lint: (textEditor) ->
+    filePath = textEditor.getPath()
+    source = textEditor.getText()
 
-  linterName: 'coffeescript'
+    try
+      coffee.compile source
+    catch err
+      return [{
+        type: 'error'
+        filePath: filePath
+        text: err.message
+        range: @computeRange(err.location)
+      }]
 
-  lintFile: (filePath, callback) ->
-    fs.readFile filePath, 'utf8', (err, data) =>
-      return callback([]) if err
+    return []
 
-      try
-        coffee.compile data
-      catch err
-        callback(@createErrorMessage err)
+  computeRange: ({first_line, first_column, last_line, last_column}) ->
+    lineStart = first_line
+    lineEnd = last_line || first_line
+    colStart = first_column
+    colEnd = (last_column || last_column) + 1
 
-  createErrorMessage: (err) ->
-    {first_line, first_column, last_line, last_column} = err.location
-
-    lineStart = first_line + 1
-    lineEnd = if last_line? then last_line + 1 else lineStart
-    colStart = first_column + 1
-    colEnd = if last_column? then last_column + 1 else lineCol
-
-    return @createMessage({
-      message: err.message
-      line: lineStart
-      lineStart: lineStart
-      lineEnd: lineEnd
-      col: colStart
-      colStart: colStart
-      colEnd: colEnd + 1
-      error: true
-    })
+    return [[lineStart, colStart], [lineEnd, colEnd]]
 
 module.exports = LinterCoffeeScript
